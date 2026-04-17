@@ -7,7 +7,7 @@ RUN apt-get install -y curl
 RUN apt-get install -y python3-distutils
 RUN apt-get install -y python3.8
 
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+RUN curl https://bootstrap.pypa.io/pip/3.8/get-pip.py -o get-pip.py
 RUN python3.8 get-pip.py
 
 WORKDIR /app
