@@ -17,7 +17,7 @@ import torch
 # ---------------------------------------------------------------------------
 # CONFIG
 # ---------------------------------------------------------------------------
-ML_RATINGS_CSV = "data/ml-25m/ratings.csv"
+ML_RATINGS_CSV = "data/ml-25m/ratings_small.csv"
 ML_MOVIES_CSV = "data/ml-25m/movies.csv"
 BRIDGE_JSON = "data/letterboxd_to_movielens.json"
 LB_RATINGS_CSV = "letterboxd_ratings.csv"
