@@ -134,3 +134,10 @@ recommender_models*/
 recommender_logs*/
 *.ckpt
 *.pt
+data/ml-25m/
+data/*.zip
+data/*.csv
+recommender_models*/
+recommender_logs*/
+*.ckpt
+*.pt
