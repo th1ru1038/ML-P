@@ -145,6 +145,8 @@ def train(
     output_json = {
         "val_loss": result_val[0]["test_loss"],
         "best_model_path": checkpoint_callback.best_model_path,
+        "mapping": mapping,
+        "inverse_mapping": inverse_mapping,
     }
 
     print(output_json)
