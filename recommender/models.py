@@ -14,7 +14,7 @@ def masked_accuracy(y_pred: torch.Tensor, y_true: torch.Tensor, mask: torch.Tens
     y_true = torch.masked_select(y_true, mask)
     predicted = torch.masked_select(predicted, mask)
 
-    acc = (y_true == predicted).double().mean()
+    acc = (y_true == predicted).float().mean()
 
     return acc
 

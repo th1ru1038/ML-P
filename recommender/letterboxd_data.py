@@ -35,16 +35,18 @@ def fetch_user_diary(username: str) -> list[dict]:
         if not date_str or not slug:
             continue
         try:
-            ts = _parse_timestamp(date_str)
+            # date arrives as ISO 8601 e.g. "2026-03-02T00:00:00.000000Z"
+            ts = _parse_timestamp(date_str[:10])
         except ValueError:
             continue
+        actions = entry.get("actions") or {}
         rows.append(
             {
                 "userId": username,
                 "movieId": slug,
                 "title": entry.get("name", slug),
                 "release": entry.get("release"),
-                "rating": entry.get("rating"),
+                "rating": actions.get("rating"),
                 "timestamp": ts,
             }
         )

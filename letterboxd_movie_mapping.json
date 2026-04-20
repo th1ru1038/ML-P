@@ -1,0 +1,506 @@
+{
+  "mapping": {
+    "1917": 2,
+    "28-years-later": 3,
+    "8-mile": 4,
+    "a-bronx-tale": 5,
+    "a-few-good-men": 6,
+    "a-league-of-their-own": 7,
+    "american-sniper": 8,
+    "barbie": 9,
+    "beverly-hills-cop-axel-f": 10,
+    "bird-box": 11,
+    "blackkklansman": 12,
+    "carry-on-2024": 13,
+    "casablanca": 14,
+    "city-of-god": 15,
+    "dead-poets-society": 16,
+    "die-hard": 17,
+    "double-indemnity": 18,
+    "dunkirk-2017": 19,
+    "eternal-sunshine-of-the-spotless-mind": 20,
+    "f1": 21,
+    "fargo": 22,
+    "field-of-dreams": 23,
+    "forrest-gump": 24,
+    "get-out-2017": 25,
+    "gone-girl": 26,
+    "good-will-hunting": 27,
+    "goodfellas": 28,
+    "hacksaw-ridge": 29,
+    "highest-2-lowest": 30,
+    "inception": 31,
+    "inglourious-basterds": 32,
+    "inherit-the-wind": 33,
+    "interstellar": 34,
+    "judas-and-the-black-messiah": 35,
+    "judgment-at-nuremberg": 36,
+    "kill-bill-vol-1": 37,
+    "la-haine": 38,
+    "little-manhattan": 39,
+    "malcolm-x-1992": 40,
+    "marty-supreme": 41,
+    "memento": 42,
+    "my-cousin-vinny": 43,
+    "nightcrawler": 44,
+    "no-country-for-old-men": 45,
+    "nope": 46,
+    "on-the-waterfront": 47,
+    "one-battle-after-another": 48,
+    "oppenheimer-2023": 49,
+    "parasite-2019": 50,
+    "prisoners": 51,
+    "pulp-fiction": 52,
+    "reservoir-dogs": 53,
+    "roman-holiday": 54,
+    "schindlers-list": 55,
+    "se7en": 56,
+    "shutter-island": 57,
+    "taxi-driver": 58,
+    "the-apartment": 59,
+    "the-big-lebowski": 60,
+    "the-boy-in-the-striped-pyjamas": 61,
+    "the-breakfast-club": 62,
+    "the-dark-knight": 63,
+    "the-equalizer": 64,
+    "the-fantastic-4-first-steps": 65,
+    "the-godfather": 66,
+    "the-godfather-part-ii": 67,
+    "the-grand-budapest-hotel": 68,
+    "the-hateful-eight": 69,
+    "the-pianist": 70,
+    "the-prestige": 71,
+    "the-pursuit-of-happyness": 72,
+    "the-river-wild": 73,
+    "the-shawshank-redemption": 74,
+    "the-silence-of-the-lambs": 75,
+    "the-trial-of-the-chicago-7": 76,
+    "titanic-1997": 77,
+    "to-catch-a-thief": 78,
+    "uncut-gems": 79,
+    "up": 80,
+    "viva-zapata": 81,
+    "wake-up-dead-man": 82,
+    "whiplash-2014": 83,
+    "witness-for-the-prosecution-1957": 84
+  },
+  "inverse_mapping": {
+    "2": "1917",
+    "3": "28-years-later",
+    "4": "8-mile",
+    "5": "a-bronx-tale",
+    "6": "a-few-good-men",
+    "7": "a-league-of-their-own",
+    "8": "american-sniper",
+    "9": "barbie",
+    "10": "beverly-hills-cop-axel-f",
+    "11": "bird-box",
+    "12": "blackkklansman",
+    "13": "carry-on-2024",
+    "14": "casablanca",
+    "15": "city-of-god",
+    "16": "dead-poets-society",
+    "17": "die-hard",
+    "18": "double-indemnity",
+    "19": "dunkirk-2017",
+    "20": "eternal-sunshine-of-the-spotless-mind",
+    "21": "f1",
+    "22": "fargo",
+    "23": "field-of-dreams",
+    "24": "forrest-gump",
+    "25": "get-out-2017",
+    "26": "gone-girl",
+    "27": "good-will-hunting",
+    "28": "goodfellas",
+    "29": "hacksaw-ridge",
+    "30": "highest-2-lowest",
+    "31": "inception",
+    "32": "inglourious-basterds",
+    "33": "inherit-the-wind",
+    "34": "interstellar",
+    "35": "judas-and-the-black-messiah",
+    "36": "judgment-at-nuremberg",
+    "37": "kill-bill-vol-1",
+    "38": "la-haine",
+    "39": "little-manhattan",
+    "40": "malcolm-x-1992",
+    "41": "marty-supreme",
+    "42": "memento",
+    "43": "my-cousin-vinny",
+    "44": "nightcrawler",
+    "45": "no-country-for-old-men",
+    "46": "nope",
+    "47": "on-the-waterfront",
+    "48": "one-battle-after-another",
+    "49": "oppenheimer-2023",
+    "50": "parasite-2019",
+    "51": "prisoners",
+    "52": "pulp-fiction",
+    "53": "reservoir-dogs",
+    "54": "roman-holiday",
+    "55": "schindlers-list",
+    "56": "se7en",
+    "57": "shutter-island",
+    "58": "taxi-driver",
+    "59": "the-apartment",
+    "60": "the-big-lebowski",
+    "61": "the-boy-in-the-striped-pyjamas",
+    "62": "the-breakfast-club",
+    "63": "the-dark-knight",
+    "64": "the-equalizer",
+    "65": "the-fantastic-4-first-steps",
+    "66": "the-godfather",
+    "67": "the-godfather-part-ii",
+    "68": "the-grand-budapest-hotel",
+    "69": "the-hateful-eight",
+    "70": "the-pianist",
+    "71": "the-prestige",
+    "72": "the-pursuit-of-happyness",
+    "73": "the-river-wild",
+    "74": "the-shawshank-redemption",
+    "75": "the-silence-of-the-lambs",
+    "76": "the-trial-of-the-chicago-7",
+    "77": "titanic-1997",
+    "78": "to-catch-a-thief",
+    "79": "uncut-gems",
+    "80": "up",
+    "81": "viva-zapata",
+    "82": "wake-up-dead-man",
+    "83": "whiplash-2014",
+    "84": "witness-for-the-prosecution-1957"
+  },
+  "slug_to_meta": {
+    "nightcrawler": {
+      "title": "Nightcrawler",
+      "release": 2014
+    },
+    "one-battle-after-another": {
+      "title": "One Battle After Another",
+      "release": 2025
+    },
+    "the-trial-of-the-chicago-7": {
+      "title": "The Trial of the Chicago 7",
+      "release": 2020
+    },
+    "marty-supreme": {
+      "title": "Marty Supreme",
+      "release": 2025
+    },
+    "double-indemnity": {
+      "title": "Double Indemnity",
+      "release": 1944
+    },
+    "wake-up-dead-man": {
+      "title": "Wake Up Dead Man",
+      "release": 2025
+    },
+    "the-pianist": {
+      "title": "The Pianist",
+      "release": 2002
+    },
+    "la-haine": {
+      "title": "La Haine",
+      "release": 1995
+    },
+    "kill-bill-vol-1": {
+      "title": "Kill Bill: Vol. 1",
+      "release": 2003
+    },
+    "my-cousin-vinny": {
+      "title": "My Cousin Vinny",
+      "release": 1992
+    },
+    "8-mile": {
+      "title": "8 Mile",
+      "release": 2002
+    },
+    "se7en": {
+      "title": "Se7en",
+      "release": 1995
+    },
+    "inglourious-basterds": {
+      "title": "Inglourious Basterds",
+      "release": 2009
+    },
+    "28-years-later": {
+      "title": "28 Years Later",
+      "release": 2025
+    },
+    "prisoners": {
+      "title": "Prisoners",
+      "release": 2013
+    },
+    "the-prestige": {
+      "title": "The Prestige",
+      "release": 2006
+    },
+    "highest-2-lowest": {
+      "title": "Highest 2 Lowest",
+      "release": 2025
+    },
+    "eternal-sunshine-of-the-spotless-mind": {
+      "title": "Eternal Sunshine of the Spotless Mind",
+      "release": 2004
+    },
+    "the-apartment": {
+      "title": "The Apartment",
+      "release": 1960
+    },
+    "viva-zapata": {
+      "title": "Viva Zapata!",
+      "release": 1952
+    },
+    "casablanca": {
+      "title": "Casablanca",
+      "release": 1942
+    },
+    "the-river-wild": {
+      "title": "The River Wild",
+      "release": 1994
+    },
+    "the-equalizer": {
+      "title": "The Equalizer",
+      "release": 2014
+    },
+    "the-fantastic-4-first-steps": {
+      "title": "The Fantastic 4: First Steps",
+      "release": 2025
+    },
+    "no-country-for-old-men": {
+      "title": "No Country for Old Men",
+      "release": 2007
+    },
+    "f1": {
+      "title": "F1",
+      "release": 2025
+    },
+    "roman-holiday": {
+      "title": "Roman Holiday",
+      "release": 1953
+    },
+    "inherit-the-wind": {
+      "title": "Inherit the Wind",
+      "release": 1960
+    },
+    "the-silence-of-the-lambs": {
+      "title": "The Silence of the Lambs",
+      "release": 1991
+    },
+    "schindlers-list": {
+      "title": "Schindler's List",
+      "release": 1993
+    },
+    "taxi-driver": {
+      "title": "Taxi Driver",
+      "release": 1976
+    },
+    "the-big-lebowski": {
+      "title": "The Big Lebowski",
+      "release": 1998
+    },
+    "blackkklansman": {
+      "title": "BlacKkKlansman",
+      "release": 2018
+    },
+    "witness-for-the-prosecution-1957": {
+      "title": "Witness for the Prosecution",
+      "release": 1957
+    },
+    "to-catch-a-thief": {
+      "title": "To Catch a Thief",
+      "release": 1955
+    },
+    "city-of-god": {
+      "title": "City of God",
+      "release": 2002
+    },
+    "the-pursuit-of-happyness": {
+      "title": "The Pursuit of Happyness",
+      "release": 2006
+    },
+    "carry-on-2024": {
+      "title": "Carry-On",
+      "release": 2024
+    },
+    "die-hard": {
+      "title": "Die Hard",
+      "release": 1988
+    },
+    "the-grand-budapest-hotel": {
+      "title": "The Grand Budapest Hotel",
+      "release": 2014
+    },
+    "beverly-hills-cop-axel-f": {
+      "title": "Beverly Hills Cop: Axel F",
+      "release": 2024
+    },
+    "the-hateful-eight": {
+      "title": "The Hateful Eight",
+      "release": 2015
+    },
+    "fargo": {
+      "title": "Fargo",
+      "release": 1996
+    },
+    "little-manhattan": {
+      "title": "Little Manhattan",
+      "release": 2005
+    },
+    "a-few-good-men": {
+      "title": "A Few Good Men",
+      "release": 1992
+    },
+    "hacksaw-ridge": {
+      "title": "Hacksaw Ridge",
+      "release": 2016
+    },
+    "bird-box": {
+      "title": "Bird Box",
+      "release": 2018
+    },
+    "judgment-at-nuremberg": {
+      "title": "Judgment at Nuremberg",
+      "release": 1961
+    },
+    "whiplash-2014": {
+      "title": "Whiplash",
+      "release": 2014
+    },
+    "the-dark-knight": {
+      "title": "The Dark Knight",
+      "release": 2008
+    },
+    "a-bronx-tale": {
+      "title": "A Bronx Tale",
+      "release": 1993
+    },
+    "malcolm-x-1992": {
+      "title": "Malcolm X",
+      "release": 1992
+    },
+    "on-the-waterfront": {
+      "title": "On the Waterfront",
+      "release": 1954
+    },
+    "forrest-gump": {
+      "title": "Forrest Gump",
+      "release": 1994
+    },
+    "goodfellas": {
+      "title": "GoodFellas",
+      "release": 1990
+    },
+    "good-will-hunting": {
+      "title": "Good Will Hunting",
+      "release": 1997
+    },
+    "dunkirk-2017": {
+      "title": "Dunkirk",
+      "release": 2017
+    },
+    "interstellar": {
+      "title": "Interstellar",
+      "release": 2014
+    },
+    "the-godfather-part-ii": {
+      "title": "The Godfather Part II",
+      "release": 1974
+    },
+    "the-godfather": {
+      "title": "The Godfather",
+      "release": 1972
+    },
+    "shutter-island": {
+      "title": "Shutter Island",
+      "release": 2010
+    },
+    "pulp-fiction": {
+      "title": "Pulp Fiction",
+      "release": 1994
+    },
+    "field-of-dreams": {
+      "title": "Field of Dreams",
+      "release": 1989
+    },
+    "barbie": {
+      "title": "Barbie",
+      "release": 2023
+    },
+    "oppenheimer-2023": {
+      "title": "Oppenheimer",
+      "release": 2023
+    },
+    "american-sniper": {
+      "title": "American Sniper",
+      "release": 2014
+    },
+    "the-shawshank-redemption": {
+      "title": "The Shawshank Redemption",
+      "release": 1994
+    },
+    "judas-and-the-black-messiah": {
+      "title": "Judas and the Black Messiah",
+      "release": 2021
+    },
+    "the-breakfast-club": {
+      "title": "The Breakfast Club",
+      "release": 1985
+    },
+    "reservoir-dogs": {
+      "title": "Reservoir Dogs",
+      "release": 1992
+    },
+    "memento": {
+      "title": "Memento",
+      "release": 2000
+    },
+    "dead-poets-society": {
+      "title": "Dead Poets Society",
+      "release": 1989
+    },
+    "titanic-1997": {
+      "title": "Titanic",
+      "release": 1997
+    },
+    "parasite-2019": {
+      "title": "Parasite",
+      "release": 2019
+    },
+    "the-boy-in-the-striped-pyjamas": {
+      "title": "The Boy in the Striped Pyjamas",
+      "release": 2008
+    },
+    "uncut-gems": {
+      "title": "Uncut Gems",
+      "release": 2019
+    },
+    "nope": {
+      "title": "Nope",
+      "release": 2022
+    },
+    "a-league-of-their-own": {
+      "title": "A League of Their Own",
+      "release": 1992
+    },
+    "get-out-2017": {
+      "title": "Get Out",
+      "release": 2017
+    },
+    "gone-girl": {
+      "title": "Gone Girl",
+      "release": 2014
+    },
+    "inception": {
+      "title": "Inception",
+      "release": 2010
+    },
+    "1917": {
+      "title": "1917",
+      "release": 2019
+    },
+    "up": {
+      "title": "Up",
+      "release": 2009
+    }
+  }
+}
