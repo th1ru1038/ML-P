@@ -16,7 +16,7 @@ Get `run_movielens.py` working end-to-end: training on the MovieLens-25M dataset
 
 `run_letterboxd.py` was the original approach but hit a dead end: the Letterboxd export contained only one user with 84 diary entries, giving BERT4Rec a `train_data` length of 1 — not enough to learn anything. `test_accuracy` was 0.0 and `predict_for_user()` returned nothing.
 
-`run_movielens.py` is the correct path forward. It trains on the **MovieLens-25M dataset** (~25 million ratings across tens of thousands of users), which gives BERT4Rec the scale it needs to learn meaningful patterns. Training has been confirmed to work. The remaining gap is inference — producing actual recommendations for a user.
+`run_movielens.py` is the correct path forward. It trains on the **MovieLens-25M dataset** (~25 million ratings across tens of thousands of users), which gives BERT4Rec the scale it needs to learn meaningful patterns.
 
 ### Data location
 
@@ -26,10 +26,9 @@ Get `run_movielens.py` working end-to-end: training on the MovieLens-25M dataset
 
 ### What has already been done
 
-- Full pipeline ran end-to-end without crashing
 - TensorBoard installed and confirmed working
-- Model trained for 100 epochs on MovieLens-25M
-- Checkpoint saved successfully
+- `run_letterboxd.py` ran for 100 epochs and saved a checkpoint — but produced zero recommendations because the training data was a single user's 84 diary entries (not enough for BERT4Rec to learn from)
+- `run_movielens.py` has **not been run yet**
 
 ### Immediate fix (unblocks everything)
 
