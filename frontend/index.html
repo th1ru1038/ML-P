@@ -412,10 +412,16 @@
         .replace(/"/g, '&quot;');
     }
 
+    function friendlyError(msg) {
+      if (!msg) return 'Something went wrong. Please try again.';
+      if (msg.startsWith('Model not trained yet')) return "The recommendation engine isn't ready yet.";
+      return msg;
+    }
+
     async function handleSubmit() {
       const input = document.getElementById('username-input');
       const btn   = document.getElementById('submit-btn');
-      const username = input.value.trim();
+      const username = input.value.trim().replace(/^@/, '');
 
       if (!username) {
         input.focus();
@@ -434,7 +440,7 @@
         const data = await res.json();
 
         if (!res.ok) {
-          showError(data.error || 'Something went wrong. Please try again.');
+          showError(friendlyError(data.error));
           return;
         }
 
