@@ -31,14 +31,42 @@ Get `run_movielens.py` working end-to-end: training on the MovieLens-25M dataset
 - Model trained for 100 epochs on MovieLens-25M
 - Checkpoint saved successfully
 
-### What needs to be done
+### Immediate fix (unblocks everything)
 
-Get inference working so that given a Letterboxd `username`, the script returns a ranked list of movie recommendations. Concrete steps:
+`ratings.csv` is missing from `data/ml-25m/`. This is the primary blocker — the script crashes before doing anything.
 
-1. Trace `predict_for_user()` in `run_movielens.py` — confirm it loads the saved checkpoint correctly and that the user ID / item ID mappings align with what was used during training.
-2. Check whether a Letterboxd username is being mapped to a MovieLens user ID, and fix any mismatch. If there is no direct mapping, the fallback is to use the user's watch history (titles) to find the closest matching MovieLens sequences.
-3. Verify the top-k output is non-empty — check score thresholds, index ranges, and that candidate items are not being silently filtered.
-4. Confirm the output movie IDs are converted back to human-readable titles using the MovieLens `movies.csv` mapping.
+**Step 1** — Download the file:
+```
+https://grouplens.org/datasets/movielens/
+```
+Download `ml-25m.zip` (~700 MB), unzip it, and place `ratings.csv` at:
+```
+data/ml-25m/ratings.csv
+```
+
+**Step 2** — Update line 20 in `run_movielens.py`:
+```python
+# before
+ML_RATINGS_CSV = "data/ml-25m/ratings_small.csv"
+
+# after
+ML_RATINGS_CSV = "data/ml-25m/ratings.csv"
+```
+
+**Step 3** — Run the script:
+```
+python run_movielens.py
+```
+
+Training will take 30–60 min on Apple Silicon (MPS). A checkpoint will be saved to `recommender_models_ml/`.
+
+### What needs to be done after training
+
+Once training completes and the checkpoint exists:
+
+1. Confirm `build_user_sequence()` returns a non-empty sequence — it reads `letterboxd_ratings.csv`, translates slugs via `data/letterboxd_to_movielens.json` (66 entries already mapped), and filters through the training vocabulary. If it returns 0 films, check the bridge file.
+2. Verify `predict()` produces results — check that `inverse_mapping` round-trips correctly from internal vocab ID → MovieLens ID → title via `movies.csv`.
+3. Confirm output titles are human-readable and surfaced in the terminal under `Top N recommendations`.
 
 ---
 
