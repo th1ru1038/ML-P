@@ -132,6 +132,7 @@ def train(
         accelerator, devices = "cpu", 1
 
     trainer = pl.Trainer(
+        num_sanity_val_steps=0,
         max_epochs=epochs,
         accelerator=accelerator,
         devices=devices,

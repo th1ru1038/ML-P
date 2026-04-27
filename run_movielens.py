@@ -17,7 +17,7 @@ import torch
 # ---------------------------------------------------------------------------
 # CONFIG
 # ---------------------------------------------------------------------------
-ML_RATINGS_CSV = "data/ml-25m/ratings.csv"   # full dataset; change to ratings_small.csv for a quick test
+ML_RATINGS_CSV = "data/ml-25m/ratings_small.csv"   # full dataset; change to ratings_small.csv for a quick test
 ML_MOVIES_CSV  = "data/ml-25m/movies.csv"
 BRIDGE_JSON    = "data/letterboxd_to_movielens.json"
 LB_RATINGS_CSV = "letterboxd_ratings.csv"
@@ -25,7 +25,7 @@ LB_RATINGS_CSV = "letterboxd_ratings.csv"
 LB_USERNAME  = "aayanr"   # Letterboxd username whose history drives inference
 HISTORY_SIZE = 120
 TOP_N        = 30         # candidates returned by predict(); main() prints first 20
-EPOCHS       = 10
+EPOCHS       = 25
 BATCH_SIZE   = 32
 MODEL_DIR    = "recommender_models_ml"
 LOG_DIR      = "recommender_logs_ml"
