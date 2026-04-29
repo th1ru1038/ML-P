@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Top 3 Picks</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Top 3 Picks for Tonight</h1>
+      {% if mood_summary %}
+      <p><strong>Mood summary:</strong> {{ mood_summary }}</p>
+      {% endif %}
+      {% if username %}
+      <p><strong>Letterboxd username:</strong> {{ username }}</p>
+      {% endif %}
+
+      <section class="cards">
+        {% for rec in recommendations %}
+        <article class="card">
+          <h2>{{ rec.title }}</h2>
+          <p>{{ rec.reason }}</p>
+          <a href="{{ rec.tmdb_url }}" target="_blank" rel="noopener noreferrer">View on TMDB</a>
+        </article>
+        {% endfor %}
+      </section>
+    </main>
+  </body>
+</html>
