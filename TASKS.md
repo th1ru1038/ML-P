@@ -2,70 +2,37 @@
 
 ---
 
-## AAYAN — Inference Fix Required
+## AAYAN — Inference Fix
 
-**Status:** In Progress
+**Status:** Partially complete — code done, data/checkpoint not shared
 
-### Goal
+### What Aayan did
 
-Get `run_movielens.py` working end-to-end: training on the MovieLens-25M dataset and producing real movie recommendations for a given Letterboxd username.
+- Added `build_mapping_from_csv()` — reconstructs the vocab mapping from the ratings CSV without reloading the full dataset, so the checkpoint can be reused across runs without retraining
+- Added `CHECKPOINT_PATH` config constant and updated `main()` to skip training when a checkpoint already exists
+- Improved `build_user_sequence()` logging: now prints total films, matched count, and skipped count with reasons
+- Cleaned up `predict()` with a step-by-step docstring and type annotations
+- Bumped `TOP_N` from 20 → 30, `EPOCHS` from 10 → 25
+- Added `num_sanity_val_steps=0` to the PyTorch Lightning trainer (suppresses the pre-flight validation pass)
+- Added `flask>=2.0.0` to `requirements.txt`
+- Successfully trained on his local machine using `ratings_small.csv` (10,000 users, MPS accelerator)
 
-**Focus on `run_movielens.py` only — ignore `run_letterboxd.py`.**
+### What is still missing
 
-### Background
+The program **cannot run** on this machine because two large files were not shared:
 
-`run_letterboxd.py` was the original approach but hit a dead end: the Letterboxd export contained only one user with 84 diary entries, giving BERT4Rec a `train_data` length of 1 — not enough to learn anything. `test_accuracy` was 0.0 and `predict_for_user()` returned nothing.
+1. **`data/ml-25m/ratings_small.csv`** — the training data Aayan used. Not in the repo (too large). Aayan needs to share this file, or you can download the full dataset:
+   - Download `ml-25m.zip` from https://grouplens.org/datasets/movielens/
+   - Unzip and place `ratings.csv` at `data/ml-25m/ratings.csv`
+   - Update line 20 of `run_movielens.py`: change `ratings_small.csv` → `ratings.csv`
 
-`run_movielens.py` is the correct path forward. It trains on the **MovieLens-25M dataset** (~25 million ratings across tens of thousands of users), which gives BERT4Rec the scale it needs to learn meaningful patterns.
+2. **`recommender_models_ml/recommender.ckpt`** — the trained model checkpoint. Not in the repo. Aayan needs to share this so training can be skipped.
 
-### Data location
+### To verify once the checkpoint is available
 
-```
-/Users/thiruveleyudham/Documents/01_Purdue/Projects/Clubs/ML@P/Final Project/data/ml-25m
-```
-
-### What has already been done
-
-- TensorBoard installed and confirmed working
-- `run_letterboxd.py` ran for 100 epochs and saved a checkpoint — but produced zero recommendations because the training data was a single user's 84 diary entries (not enough for BERT4Rec to learn from)
-- `run_movielens.py` has **not been run yet**
-
-### Immediate fix (unblocks everything)
-
-`ratings.csv` is missing from `data/ml-25m/`. This is the primary blocker — the script crashes before doing anything.
-
-**Step 1** — Download the file:
-```
-https://grouplens.org/datasets/movielens/
-```
-Download `ml-25m.zip` (~700 MB), unzip it, and place `ratings.csv` at:
-```
-data/ml-25m/ratings.csv
-```
-
-**Step 2** — Update line 20 in `run_movielens.py`:
-```python
-# before
-ML_RATINGS_CSV = "data/ml-25m/ratings_small.csv"
-
-# after
-ML_RATINGS_CSV = "data/ml-25m/ratings.csv"
-```
-
-**Step 3** — Run the script:
-```
-python run_movielens.py
-```
-
-Training will take 30–60 min on Apple Silicon (MPS). A checkpoint will be saved to `recommender_models_ml/`.
-
-### What needs to be done after training
-
-Once training completes and the checkpoint exists:
-
-1. Confirm `build_user_sequence()` returns a non-empty sequence — it reads `letterboxd_ratings.csv`, translates slugs via `data/letterboxd_to_movielens.json` (66 entries already mapped), and filters through the training vocabulary. If it returns 0 films, check the bridge file.
-2. Verify `predict()` produces results — check that `inverse_mapping` round-trips correctly from internal vocab ID → MovieLens ID → title via `movies.csv`.
-3. Confirm output titles are human-readable and surfaced in the terminal under `Top N recommendations`.
+1. Run `python3 run_movielens.py` — it should detect the checkpoint and skip training
+2. Confirm `build_user_sequence()` prints a non-zero matched count
+3. Confirm `Top 20 recommendations` prints human-readable titles
 
 ---
 
