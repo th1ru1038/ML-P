@@ -141,3 +141,4 @@ recommender_models*/
 recommender_logs*/
 *.ckpt
 *.pt
+.env

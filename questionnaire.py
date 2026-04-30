@@ -79,19 +79,24 @@ def run_questionnaire() -> tuple[str, str]:
     response_text = send("Hey, help me pick a movie for tonight.")
     _print_assistant(response_text)
 
-    # Conversation loop — runs until the model signals [DONE]
+    # Conversation loop — runs until the model signals [DONE].
+    # The [DONE]-containing response is an exit signal only: we do NOT print it
+    # so the username question is never displayed back-to-back with a Groq message.
+    # Every assistant print is separated from the next by exactly one input() call.
     while "[DONE]" not in response_text:
         user_input = _prompt_user()
         response_text = send(user_input)
-        _print_assistant(response_text)
+        if "[DONE]" not in response_text:
+            _print_assistant(response_text)
 
-    # Ask the model to distill the conversation into a mood summary
-    mood_summary = send(SUMMARY_PROMPT).strip()
-
-    # Collect Letterboxd username — no model call needed
+    # The last action was _prompt_user() inside the loop, so printing here
+    # is always preceded by user input — never back-to-back with a Groq message.
     print("Assistant: Last thing — what's your Letterboxd username so I can "
           "see what you've already watched?\n")
     username = _prompt_user()
+
+    # Generate mood summary silently — internal only, never printed to the user.
+    mood_summary = send(SUMMARY_PROMPT).strip()
 
     return mood_summary, username
 

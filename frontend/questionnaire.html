@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tonight's Feature</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & tokens ────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a0a;
+      --surface:   #111114;
+      --border:    #1e1e24;
+      --accent:    #f0c040;
+      --accent-dim:#a8852b;
+      --text:      #e8e6e0;
+      --muted:     #7a7870;
+      --serif:     'DM Serif Display', Georgia, serif;
+      --sans:      'Inter', system-ui, sans-serif;
+      --ease:      cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Film-grain texture overlay (CSS only, no images) ──────────── */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.45'/%3E%3C/svg%3E");
+      opacity: 0.035;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── Layout wrapper ────────────────────────────────────────────── */
+    .stage {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    /* ── State management ──────────────────────────────────────────── */
+    .state {
+      position: absolute;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      min-height: 100vh;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s var(--ease);
+    }
+    .state.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ── STATE 1: IDLE ─────────────────────────────────────────────── */
+    .idle-inner {
+      text-align: center;
+      max-width: 520px;
+    }
+
+    .wordmark {
+      font-family: var(--serif);
+      font-size: clamp(2.6rem, 5.5vw, 4rem);
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .wordmark span {
+      color: var(--accent);
+    }
+
+    .tagline {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+      margin-bottom: 3rem;
+    }
+
+    .btn-start {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--accent);
+      color: #0a0a0a;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.85rem 2.4rem;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s var(--ease), transform 0.15s var(--ease), box-shadow 0.2s var(--ease);
+    }
+    .btn-start:hover {
+      background: #f7d060;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(240, 192, 64, 0.25);
+    }
+    .btn-start:active {
+      transform: translateY(0);
+    }
+
+    .btn-start svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ── STATE 2: LOADING ──────────────────────────────────────────── */
+    .loading-inner {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    /* Pulsing rings */
+    .pulse-wrap {
+      position: relative;
+      width: 72px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pulse-core {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .pulse-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid var(--accent);
+      animation: ring-out 2.4s ease-out infinite;
+      opacity: 0;
+    }
+    .pulse-ring:nth-child(2) { animation-delay: 0.8s; }
+    .pulse-ring:nth-child(3) { animation-delay: 1.6s; }
+
+    @keyframes ring-out {
+      0%   { transform: scale(0.4); opacity: 0.7; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    .loading-phrase {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--muted);
+      min-height: 1.8rem;
+      transition: opacity 0.4s var(--ease);
+    }
+
+    .loading-hint {
+      font-size: 0.78rem;
+      color: #3a3830;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── STATE 3: RESULTS ──────────────────────────────────────────── */
+    .results-inner {
+      max-width: 680px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 1rem 0 3rem;
+    }
+
+    .cards-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .rec-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.4rem 1.6rem;
+      transition: transform 0.22s var(--ease), box-shadow 0.22s var(--ease), border-color 0.22s var(--ease);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .rec-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .rec-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 40px rgba(240, 192, 64, 0.1);
+      border-color: rgba(240, 192, 64, 0.2);
+    }
+
+    .card-num {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 0.4rem;
+    }
+
+    .card-title {
+      font-family: var(--serif);
+      font-size: 1.45rem;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 0.65rem;
+    }
+
+    .card-reason {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent-dim);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.15s var(--ease);
+    }
+    .card-link:hover { color: var(--accent); }
+
+    .btn-reset {
+      align-self: center;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.7rem 1.8rem;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+      margin-top: 0.5rem;
+    }
+    .btn-reset:hover {
+      border-color: var(--accent-dim);
+      color: var(--text);
+    }
+
+    /* ── Error callout ─────────────────────────────────────────────── */
+    .error-box {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.9rem 1.2rem;
+      background: rgba(160, 40, 30, 0.1);
+      border: 1px solid rgba(160, 40, 30, 0.3);
+      border-radius: 3px;
+      font-size: 0.85rem;
+      color: #e07060;
+      line-height: 1.5;
+    }
+
+    /* Transition utility */
+    .fade-enter {
+      animation: fade-in 0.4s var(--ease) forwards;
+    }
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── STATE 1: IDLE ─────────────────────────────────────────── -->
+  <div id="state-idle" class="state active">
+    <div class="idle-inner">
+      <h1 class="wordmark">Tonight's <span>Feature</span></h1>
+      <p class="tagline">Tell us how you're feeling. We'll find your film.</p>
+
+      <button class="btn-start" id="btn-start">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path d="M6 3.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1H7v7.5a.5.5 0 0 1-1 0V4H5.5A.5.5 0 0 1 5 3.5v-1a.5.5 0 0 1 .5-.5H6v.5zm4 0v.5H9.5a.5.5 0 0 1 0-1h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H10v7.5a.5.5 0 0 1-1 0V4h-.5A.5.5 0 0 1 8 3.5V3a.5.5 0 0 1 .5-.5H10z"/>
+          <polygon points="5,2 11,8 5,14"/>
+        </svg>
+        Begin
+      </button>
+
+      <div id="start-error" class="error-box"></div>
+    </div>
+  </div>
+
+  <!-- ── STATE 2: LOADING ──────────────────────────────────────── -->
+  <div id="state-loading" class="state">
+    <div class="loading-inner">
+      <div class="pulse-wrap">
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring"></div>
+        <div class="pulse-core"></div>
+      </div>
+
+      <p class="loading-phrase" id="loading-phrase">Analysing your mood...</p>
+      <p class="loading-hint">Answer the questions in the terminal window</p>
+    </div>
+  </div>
+
+  <!-- ── STATE 3: RESULTS ──────────────────────────────────────── -->
+  <div id="state-results" class="state">
+    <div class="results-inner">
+
+      <div class="cards-grid" id="cards-grid"></div>
+
+      <button class="btn-reset" id="btn-reset">Start Over</button>
+    </div>
+  </div>
+
+  <script>
+    /* ── State helpers ─────────────────────────────────────────── */
+    const states = ['idle', 'loading', 'results'];
+
+    function showState(name) {
+      states.forEach(s => {
+        const el = document.getElementById('state-' + s);
+        if (s === name) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
+      });
+    }
+
+    /* ── Loading phrase rotator ────────────────────────────────── */
+    const phrases = [
+      'Analysing your mood…',
+      'Browsing the catalogue…',
+      'Curating your picks…',
+      'Almost there…',
+    ];
+    let phraseIdx = 0;
+    let phraseTimer = null;
+
+    function startPhrases() {
+      const el = document.getElementById('loading-phrase');
+      phraseIdx = 0;
+      el.textContent = phrases[0];
+      phraseTimer = setInterval(() => {
+        el.style.opacity = '0';
+        setTimeout(() => {
+          phraseIdx = (phraseIdx + 1) % phrases.length;
+          el.textContent = phrases[phraseIdx];
+          el.style.opacity = '1';
+        }, 400);
+      }, 2000);
+    }
+
+    function stopPhrases() {
+      clearInterval(phraseTimer);
+    }
+
+    /* ── Results renderer ──────────────────────────────────────── */
+    function renderResults(data) {
+      const grid = document.getElementById('cards-grid');
+      grid.innerHTML = '';
+
+      const ordinals = ['01', '02', '03'];
+
+      (data.recommendations || []).forEach((rec, i) => {
+        const card = document.createElement('div');
+        card.className = 'rec-card';
+        card.innerHTML = `
+          <div class="card-num">${ordinals[i] || String(i + 1).padStart(2, '0')}</div>
+          <div class="card-title">${esc(rec.title)}</div>
+          <p class="card-reason">${esc(rec.reason)}</p>
+          <a class="card-link" href="${esc(rec.tmdb_url)}" target="_blank" rel="noopener">
+            View on TMDB
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true">
+              <path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        `;
+        grid.appendChild(card);
+
+        // Staggered entrance
+        setTimeout(() => {
+          card.style.transition = `opacity 0.5s ease, transform 0.5s ease`;
+          card.classList.add('visible');
+        }, 80 + i * 150);
+      });
+    }
+
+    function esc(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    /* ── Main fetch ────────────────────────────────────────────── */
+    async function startQuestionnaire() {
+      const errBox = document.getElementById('start-error');
+      errBox.style.display = 'none';
+
+      showState('loading');
+      startPhrases();
+
+      // 10-minute abort ceiling — the terminal questionnaire can take a while
+      const controller = new AbortController();
+      const abortTimer = setTimeout(() => controller.abort(), 600_000);
+
+      try {
+        const resp = await fetch('/run', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({}),
+          signal: controller.signal,
+        });
+        clearTimeout(abortTimer);
+
+        const data = await resp.json();
+
+        stopPhrases();
+
+        if (!resp.ok || data.error) {
+          throw new Error(data.detail || data.error || 'Unexpected error from server.');
+        }
+
+        renderResults(data);
+        showState('results');
+
+      } catch (err) {
+        clearTimeout(abortTimer);
+        stopPhrases();
+        showState('idle');
+
+        let msg = err.name === 'AbortError'
+          ? 'The request timed out. Please try again.'
+          : (err.message || 'Something went wrong. Please try again.');
+
+        errBox.textContent = msg;
+        errBox.style.display = 'block';
+      }
+    }
+
+    /* ── Event listeners ───────────────────────────────────────── */
+    document.getElementById('btn-start').addEventListener('click', startQuestionnaire);
+
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      document.getElementById('cards-grid').innerHTML = '';
+      showState('idle');
+    });
+  </script>
+</body>
+</html>
